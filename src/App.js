@@ -1,25 +1,26 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import WebcamCapture from './component/WebcamCapture';
+import ImagePicker from './component/ImagePicker';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+    const [imageSrc, setImageSrc] = useState('');
+
+    return (
+        <div className="App">
+            <h1>Image Picker and Camera</h1>
+            <div className="buttons">
+                <button onClick={() => setImageSrc('')}>Upload from Gallery</button>
+                <button onClick={() => setImageSrc('webcam')}>Take a Photo</button>
+            </div>
+            {imageSrc === 'webcam' ? (
+                <WebcamCapture onImageCapture={(src) => setImageSrc(src)} />
+            ) : (
+                <ImagePicker onImageSelect={(src) => setImageSrc(src)} />
+            )}
+            {imageSrc && <img src={imageSrc} alt="Selected" />}
+        </div>
+    );
+};
 
 export default App;
